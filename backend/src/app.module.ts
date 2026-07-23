@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ArticlesModule } from './articles/articles.module';
 import { CommonModule } from './common/common.module';
 import { EnvConfiguration } from './config/app.config';
 import { HealthModule } from './health/health.module';
@@ -22,6 +23,7 @@ import { HealthModule } from './health/health.module';
     }),
     CommonModule,
     HealthModule,
+    ArticlesModule,
   ],
   controllers: [],
   providers: [],
