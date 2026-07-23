@@ -156,7 +156,10 @@ http://localhost:5173
 
 Populate the database with sample articles.
 
-GET http://localhost:3000/api/seed
+```bash
+cd backend
+npm run seed
+```
 
 ---
 
