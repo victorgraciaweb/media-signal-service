@@ -6,6 +6,14 @@ Nota: el código, la documentación, los commits y el README del proyecto se red
 
 ---
 
+## Principio general
+
+Ante cualquier decisión técnica, priorizar siempre la solución más simple que cumpla correctamente los requisitos del enunciado.
+
+Si una solución más compleja no mejora claramente alguno de los criterios de evaluación de la prueba, debe preferirse la opción más sencilla.
+
+---
+
 ## Project Overview (Visión general del proyecto)
 
 Construir un pequeño servicio fullstack que ingiere artículos de noticias, los enriquece con IA, y permite a los usuarios buscar y explorar los datos. El proyecto refleja retos reales de media intelligence: parsing de queries booleanas, enriquecimiento mediante LLM, rendimiento SQL, y manejo responsable de contenido no confiable.
@@ -27,12 +35,14 @@ Es una **prueba técnica para el puesto de Senior Fullstack Engineer en Carma**,
 ## Functional Requirements (Requisitos funcionales)
 
 **Capa de datos**
+
 - Cargar y persistir los 20 artículos de muestra (headline, body, source, date, language).
 - Endpoint de listado paginado que evite los problemas de rendimiento de la paginación por `OFFSET` profundo.
 - Endpoint de agregación: conteo de artículos agrupado por mes (o semana) para un conjunto de filtros dado.
 - Filtrado eficiente por rango de fechas, fuente e idioma.
 
 **Búsqueda booleana**
+
 - Operadores: `AND`, `OR`, `AND NOT` (palabras clave sensibles a mayúsculas — `and`/`or` en minúscula son términos de búsqueda literales, no operadores).
 - Paréntesis anidados, p. ej. `(a AND (b OR c))`.
 - Coincidencia de frases con comillas dobles, p. ej. `"media intelligence"`.
@@ -40,11 +50,13 @@ Es una **prueba técnica para el puesto de Senior Fullstack Engineer en Carma**,
 - El enfoque de implementación (parser propio, PostgreSQL FTS, librería, o combinación) es totalmente libre — debe justificarse con sus tradeoffs en el README.
 
 **Enriquecimiento LLM** (por artículo)
+
 - Resumen de 1–2 frases.
 - Clasificación de sentimiento: positive / negative / neutral / mixed.
 - 1–3 topic tags.
 
 **Superficie fullstack**
+
 - Página de búsqueda: input de texto para queries booleanas, resultados mostrando resumen, badge de sentimiento y topic tags.
 - Vista agregada: gráfico o tabla de conteo de artículos en el tiempo, filtrable por al menos una dimensión (sentiment, source o topic).
 - La UI solo necesita ser funcional y clara — no pulida.
@@ -79,16 +91,17 @@ Es una **prueba técnica para el puesto de Senior Fullstack Engineer en Carma**,
 
 Ponderación de evaluación (según el enunciado):
 
-| Criterio | Peso |
-|---|---|
-| LLM selection & cost reasoning | 20% |
-| Correctness & functionality | 20% |
-| Plan quality | 15% |
-| SQL & performance | 15% |
-| Security & responsibility | 15% |
-| Transcript & reflection | 15% |
+| Criterio                       | Peso |
+| ------------------------------ | ---- |
+| LLM selection & cost reasoning | 20%  |
+| Correctness & functionality    | 20%  |
+| Plan quality                   | 15%  |
+| SQL & performance              | 15%  |
+| Security & responsibility      | 15%  |
+| Transcript & reflection        | 15%  |
 
 Implicaciones:
+
 - Las decisiones, tradeoffs y el razonamiento importan más que la completitud bruta o el pulido visual.
 - Un stub bien razonado ("esto lo dejé a medias y así lo terminaría") puntúa mejor que una implementación apresurada y frágil.
 - El esfuerzo estimado es de ~7–9 horas focalizadas con asistencia de IA; no sobre-invertir en ninguna sección más allá de su asignación de tiempo aproximada (Data Layer & SQL ~30 min, Boolean Search ~90–120 min, LLM Enrichment ~60–90 min, Fullstack Surface ~90–120 min, Responsible Coding ~45–60 min).
@@ -128,13 +141,13 @@ Deben abordarse y documentarse (implementación fuertemente recomendada; para pr
 
 El README debe incluir, como mínimo, estas secciones:
 
-| Sección | Contenido |
-|---|---|
-| Plan | Desglose del problema, qué se abordó primero y por qué, qué se recortaría bajo presión de tiempo. |
-| Architecture & Decisions | Elección de stack, diseño de esquema, enfoque de búsqueda booleana, selección de modelo(s) LLM con tradeoffs de coste/calidad/latencia. |
-| LLM Cost Analysis | Modelo(s) elegido(s), desglose de coste por artículo, coste diario proyectado a 50.000 artículos/día, guardrails implementados. |
-| Security & Responsibility | Cómo se manejó SQL injection, XSS, prompt injection y los controles de coste. |
-| Reflection | Dónde ayudó más la IA, dónde indujo a error o produjo algo que hubo que corregir, qué se haría diferente con más tiempo. |
+| Sección                   | Contenido                                                                                                                               |
+| ------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| Plan                      | Desglose del problema, qué se abordó primero y por qué, qué se recortaría bajo presión de tiempo.                                       |
+| Architecture & Decisions  | Elección de stack, diseño de esquema, enfoque de búsqueda booleana, selección de modelo(s) LLM con tradeoffs de coste/calidad/latencia. |
+| LLM Cost Analysis         | Modelo(s) elegido(s), desglose de coste por artículo, coste diario proyectado a 50.000 artículos/día, guardrails implementados.         |
+| Security & Responsibility | Cómo se manejó SQL injection, XSS, prompt injection y los controles de coste.                                                           |
+| Reflection                | Dónde ayudó más la IA, dónde indujo a error o produjo algo que hubo que corregir, qué se haría diferente con más tiempo.                |
 
 Las decisiones de indexación (Data Layer) y el enfoque/tradeoffs de la búsqueda booleana también deben explicarse en el README, según lo indicado en las secciones correspondientes del enunciado.
 
@@ -164,6 +177,127 @@ Las decisiones de indexación (Data Layer) y el enfoque/tradeoffs de la búsqued
 - **El transcript completo de la conversación con IA se entregará junto con el proyecto.** Favorecer respuestas claras, bien razonadas y bien documentadas durante esta prueba.
 
 ---
+
+## Mentalidad de un Senior Engineer
+
+Durante todo el desarrollo priorizar:
+
+- Decisiones pragmáticas.
+- Simplicidad.
+- Código fácil de mantener.
+- Tradeoffs bien razonados.
+- Soluciones alineadas con los requisitos del enunciado.
+
+No priorizar:
+
+- Cantidad de archivos.
+- Complejidad arquitectónica.
+- Patrones de diseño innecesarios.
+- Sobreingeniería.
+- Completar funcionalidades que no aporten valor a la evaluación.
+
+El objetivo no es construir el sistema más complejo, sino demostrar criterio técnico, capacidad de análisis y buenas decisiones de ingeniería.
+
+---
+
+## Gestión del tiempo
+
+El tiempo disponible forma parte de la prueba.
+
+Al proponer soluciones:
+
+- Priorizar implementaciones que puedan completarse razonablemente dentro del tiempo estimado.
+- Si existe una solución más completa pero considerablemente más costosa de implementar, mencionarla brevemente, pero priorizar la alternativa más pragmática.
+- Evitar soluciones propias de sistemas enterprise cuando no aporten valor a los criterios de evaluación.
+
+---
+
+## Restricciones arquitectónicas
+
+No introducir patrones arquitectónicos (DDD, Clean Architecture, Hexagonal Architecture, CQRS, Event Sourcing, Repository Pattern, etc.) únicamente por seguir buenas prácticas.
+
+Solo utilizar estos patrones cuando resuelvan claramente un requisito del enunciado o cuando el usuario los solicite expresamente.
+
+La prioridad es construir una solución sencilla, mantenible y adecuada al alcance de la prueba técnica.
+
+---
+
+## Cuando exista incertidumbre
+
+No asumir comportamientos que no aparecen en el enunciado.
+
+Cuando exista información insuficiente:
+
+- Explicar las posibles interpretaciones.
+- Indicar las hipótesis realizadas.
+- Solicitar aclaración al usuario si la decisión puede afectar al diseño o a la implementación.
+
+---
+
+## Uso de comentarios
+
+Evitar comentarios que describan lo que hace el código.
+
+Los comentarios deben explicar el motivo de una decisión ("por qué"), no repetir lo que ya expresa claramente el código ("qué").
+
+Solo añadir comentarios cuando aporten contexto o expliquen una decisión técnica no evidente.
+
+---
+
+## Toma de decisiones
+
+Antes de implementar cualquier funcionalidad:
+
+1. Verificar que el requisito existe explícitamente en el enunciado de la prueba.
+2. Priorizar siempre la solución más simple que cumpla correctamente el requisito.
+3. Si existen varias alternativas válidas, exponer primero los tradeoffs antes de elegir una implementación.
+4. Evitar optimizaciones prematuras.
+5. Si un requisito es ambiguo, señalar la ambigüedad explícitamente en lugar de asumir un comportamiento.
+
+---
+
+## Al generar código
+
+- Priorizar código sencillo y fácil de mantener.
+- Mantener funciones pequeñas y con una única responsabilidad.
+- Favorecer la legibilidad frente a soluciones excesivamente ingeniosas.
+- Evitar abstracciones innecesarias.
+- No crear interfaces, clases base o patrones de diseño si solo existe una implementación y no aportan un beneficio claro.
+- No añadir nuevas dependencias salvo que resuelvan directamente un requisito del enunciado.
+- Preferir composición frente a herencia cuando sea aplicable.
+
+---
+
+## Funcionalidad no requerida
+
+No implementar funcionalidades que no estén explícitamente requeridas por el enunciado.
+
+Evitar añadir características "por si acaso", aunque sean habituales en proyectos reales (autenticación, autorización, logging avanzado, métricas, health checks, CQRS, eventos, cache distribuida, etc.), salvo que el usuario lo solicite expresamente durante el desarrollo.
+
+---
+
+## Decisiones que deben documentarse
+
+Siempre que una decisión afecte a alguno de estos aspectos:
+
+- Arquitectura.
+- Rendimiento.
+- Seguridad.
+- Coste del LLM.
+- Mantenibilidad.
+
+Indicar explícitamente si esa decisión debe documentarse posteriormente en el README junto con su justificación.
+
+---
+
+## Control de complejidad
+
+Si una implementación comienza a ser significativamente más compleja que el requisito que pretende resolver:
+
+- Detenerse.
+- Explicar el motivo de la complejidad.
+- Proponer una alternativa más simple si existe.
+- No continuar aumentando la complejidad sin una justificación clara.
 
 ## Definition of Done (Definición de terminado)
 
