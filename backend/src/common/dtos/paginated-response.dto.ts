@@ -1,7 +1,17 @@
+import { ApiProperty } from '@nestjs/swagger';
+
 export class PaginatedResponseDto<T> {
-  constructor(
-    public data: T[],
-    public count: number,
-    public pages: number,
-  ) {}
+  data: T[];
+
+  @ApiProperty({ example: 20, description: 'Total number of matching items.' })
+  count: number;
+
+  @ApiProperty({ example: 2, description: 'Total number of pages available.' })
+  pages: number;
+
+  constructor(data: T[], count: number, pages: number) {
+    this.data = data;
+    this.count = count;
+    this.pages = pages;
+  }
 }
