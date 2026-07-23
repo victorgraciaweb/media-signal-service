@@ -33,8 +33,14 @@ This project was developed as part of a technical assessment and demonstrates th
 ### Frontend
 
 - React
-- TypeScript
 - Vite
+- TypeScript
+- React Router
+- Axios
+- Tailwind CSS
+- shadcn/ui
+- Vitest
+- React Testing Library
 
 ### AI
 
@@ -47,12 +53,12 @@ This project was developed as part of a technical assessment and demonstrates th
 ```text
 media-signal-service/
 │
-├── backend/
+├── backend/             # NestJS REST API
+├── frontend/            # React application
 │
-├── frontend/
-│
-├── docker-compose.yml
-│
+├── .env.template        # Environment variables template for PostgreSQL
+├── .gitignore
+├── docker-compose.yml   # PostgreSQL Docker configuration
 └── README.md
 ```
 
@@ -76,9 +82,11 @@ Copy the environment template.
 
 ```bash
 cp backend/.env.template backend/.env
+cp frontend/.env.template frontend/.env
+cp .env.template .env
 ```
 
-Update the `.env` file with your local configuration.
+Copy the `.env` files with your local configuration.
 
 ---
 
@@ -97,7 +105,7 @@ yarn install
 ```bash
 cd ../frontend
 
-yarn install
+npm install
 ```
 
 ---
@@ -107,8 +115,6 @@ yarn install
 From the project root:
 
 ```bash
-cp .env.template .env
-
 docker compose up -d
 ```
 
@@ -135,7 +141,7 @@ http://localhost:3000
 ```bash
 cd frontend
 
-yarn dev
+npm run dev
 ```
 
 Frontend:
@@ -182,7 +188,7 @@ Example response:
 
 ---
 
-# Running Tests
+# Running Tests (only Backend)
 
 Run all tests.
 
@@ -213,8 +219,9 @@ yarn test:cov
 ### Frontend
 
 ```bash
-yarn dev
-yarn build
+npm run test
+npm run test:ui
+npm run test:cov
 ```
 
 ---
