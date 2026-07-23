@@ -1,15 +1,15 @@
 import {
   Entity,
-  PrimaryGeneratedColumn,
   Column,
   CreateDateColumn,
   UpdateDateColumn,
+  PrimaryColumn,
 } from 'typeorm';
 
 @Entity('articles')
 export class Article {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+  @PrimaryColumn({ type: 'integer' })
+  id: number;
 
   @Column('text')
   headline: string;

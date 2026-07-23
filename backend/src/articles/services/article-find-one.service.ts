@@ -11,7 +11,7 @@ export class ArticleFindOneService {
     private readonly articleRepository: Repository<Article>,
   ) {}
 
-  async execute(id: string): Promise<ArticleResponseDto> {
+  async execute(id: number): Promise<ArticleResponseDto> {
     const article = await this.articleRepository.findOne({ where: { id } });
 
     if (!article) {

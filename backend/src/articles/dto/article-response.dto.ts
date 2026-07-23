@@ -3,10 +3,10 @@ import { Article } from '../entities/article.entity';
 
 export class ArticleResponseDto {
   @ApiProperty({
-    example: 'b3f1c2e0-1a2b-4c3d-9e8f-123456789abc',
+    example: 44,
     description: 'Article unique identifier.',
   })
-  id: string;
+  id: number;
 
   @ApiProperty({
     example: 'Renewable energy investments hit record high',

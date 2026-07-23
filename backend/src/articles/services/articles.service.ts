@@ -18,7 +18,7 @@ export class ArticlesService {
     return this.findAllService.execute(query);
   }
 
-  findOne(id: string): Promise<ArticleResponseDto> {
+  findOne(id: number): Promise<ArticleResponseDto> {
     return this.findOneService.execute(id);
   }
 }

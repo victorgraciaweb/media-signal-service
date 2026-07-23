@@ -1,4 +1,4 @@
-import { Controller, Get, Param, ParseUUIDPipe, Query } from '@nestjs/common';
+import { Controller, Get, Param, ParseIntPipe, Query } from '@nestjs/common';
 import {
   ApiExtraModels,
   ApiNotFoundResponse,
@@ -61,18 +61,18 @@ export class ArticlesController {
   /**
    * Get an article by its ID
    *
-   * @param id Article UUID
+   * @param id Article ID
    * @returns ArticleResponseDto
    */
   @Get(':id')
   @ApiOperation({
     summary: 'Get an article by ID',
-    description: 'Returns a single article identified by its UUID.',
+    description: 'Returns a single article identified by its ID.',
   })
   @ApiParam({
     name: 'id',
-    description: 'Article UUID.',
-    example: 'b3f1c2e0-1a2b-4c3d-9e8f-123456789abc',
+    description: 'Article ID.',
+    example: 44,
   })
   @ApiOkResponse({
     description: 'The article matching the given ID.',
@@ -81,7 +81,7 @@ export class ArticlesController {
   @ApiNotFoundResponse({
     description: 'No article exists with the given ID.',
   })
-  findOne(@Param('id', ParseUUIDPipe) id: string): Promise<ArticleResponseDto> {
+  findOne(@Param('id', ParseIntPipe) id: number): Promise<ArticleResponseDto> {
     return this.articlesService.findOne(id);
   }
 }
