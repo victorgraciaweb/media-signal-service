@@ -207,28 +207,6 @@ yarn test:cov
 
 ---
 
-# Available Scripts
-
-### Backend
-
-```bash
-yarn start
-yarn start:dev
-yarn build
-yarn test
-yarn test:cov
-```
-
-### Frontend
-
-```bash
-npm run test
-npm run test:ui
-npm run test:cov
-```
-
----
-
 # Development Notes
 
 This repository is organized as a full-stack application with independent backend and frontend projects orchestrated through Docker Compose.
