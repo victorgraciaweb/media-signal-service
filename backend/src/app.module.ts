@@ -5,6 +5,7 @@ import { ArticlesModule } from './articles/articles.module';
 import { CommonModule } from './common/common.module';
 import { EnvConfiguration } from './config/app.config';
 import { HealthModule } from './health/health.module';
+import { SearchModule } from './search/search.module';
 import { SeedModule } from './seed/seed.module';
 
 @Module({
@@ -25,6 +26,7 @@ import { SeedModule } from './seed/seed.module';
     CommonModule,
     HealthModule,
     ArticlesModule,
+    SearchModule,
     SeedModule,
   ],
   controllers: [],
