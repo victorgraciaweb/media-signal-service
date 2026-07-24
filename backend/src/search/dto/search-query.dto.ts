@@ -4,9 +4,9 @@ import { PaginationDto } from '../../common/dtos/pagination.dto';
 
 export class SearchQueryDto extends PaginationDto {
   @ApiProperty({
-    example: '(renewable* AND "clean energy") AND NOT nuclear',
+    example: 'AI AND ("healthcare" OR "diagnostic")',
     description:
-      'Boolean search query. Supports AND, OR, AND NOT (uppercase only), nested parentheses, double-quoted phrases and * wildcards.',
+      'Boolean search query. Supports AND, OR, AND NOT, nested parentheses, quoted phrases and * wildcards.',
   })
   @IsString()
   @IsNotEmpty()

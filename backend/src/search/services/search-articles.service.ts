@@ -1,4 +1,4 @@
-import { Injectable, NotImplementedException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Article } from '../../articles/entities/article.entity';
@@ -19,10 +19,25 @@ export class SearchArticlesService {
     private readonly articleRepository: Repository<Article>,
   ) {}
 
-  execute(
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  async execute(
     query: SearchQueryDto,
   ): Promise<PaginatedResponseDto<ArticleResponseDto>> {
-    throw new NotImplementedException('Boolean search is not implemented yet');
+    const { q, limit = 10, offset = 0 } = query;
+
+    const queryBuilder = this.articleRepository
+      .createQueryBuilder('article')
+      .orderBy('article.publishedAt', 'DESC')
+      .take(limit)
+      .skip(offset);
+
+    queryBuilder.andWhere('article.source = :q', { q });
+
+    const [articles, total] = await queryBuilder.getManyAndCount();
+
+    return new PaginatedResponseDto<ArticleResponseDto>(
+      articles.map((article) => new ArticleResponseDto(article)),
+      total,
+      Math.ceil(total / limit),
+    );
   }
 }
