@@ -5,12 +5,17 @@ import { Article } from '../../articles/entities/article.entity';
 import { ArticleResponseDto } from '../../articles/dto';
 import { PaginatedResponseDto } from '../../common/dtos/paginated-response.dto';
 import { SearchQueryDto } from '../dto';
+import { parseBooleanQuery } from '../boolean-query.parser';
 
 /**
  * Service to search articles by boolean query
  *
- * The query resolution strategy (custom parser vs PostgreSQL FTS) is still
- * an open decision, so only the module wiring exists for now.
+ * Queries are translated to PostgreSQL `tsquery` by `parseBooleanQuery` and
+ * matched against the pre-computed `search_vector` column, which is backed by a
+ * GIN index. The `simple` configuration is used on both sides: the corpus is
+ * multilingual (en, ar, zh), so language-specific stemming would be wrong for
+ * most of it, and `simple` keeps stop words indexed so a lowercase `and` really
+ * is searchable as a term.
  */
 @Injectable()
 export class SearchArticlesService {
@@ -30,7 +35,10 @@ export class SearchArticlesService {
       .take(limit)
       .skip(offset);
 
-    queryBuilder.andWhere('article.source = :q', { q });
+    queryBuilder.andWhere(
+      `article.search_vector @@ to_tsquery('simple', :query)`,
+      { query: parseBooleanQuery(q) },
+    );
 
     const [articles, total] = await queryBuilder.getManyAndCount();
 

@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsString, MaxLength } from 'class-validator';
 import { PaginationDto } from '../../common/dtos/pagination.dto';
 
 export class SearchQueryDto extends PaginationDto {
@@ -10,5 +10,6 @@ export class SearchQueryDto extends PaginationDto {
   })
   @IsString()
   @IsNotEmpty()
+  @MaxLength(512)
   q: string;
 }

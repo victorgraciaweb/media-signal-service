@@ -30,6 +30,16 @@ export class SeedService {
   ) {}
 
   async execute(): Promise<void> {
+    /**
+     * Ensure the GIN index used by PostgreSQL Full Text Search exists.
+     *
+     * In a production application this would typically be managed
+     * through database migrations.
+     */
+    await this.articleRepository.query(
+      'CREATE INDEX IF NOT EXISTS idx_articles_search_vector ON articles USING GIN (search_vector)',
+    );
+
     await this.articleRepository.clear();
 
     const articles = (sampleArticles as SampleArticle[]).map((sample) =>
@@ -38,8 +48,6 @@ export class SeedService {
         headline: sample.headline,
         body: sample.body,
         source: sample.source,
-        // Column is a `date` typed as string (YYYY-MM-DD); the sample
-        // data ships full ISO timestamps.
         publishedAt: sample.published_at.slice(0, 10),
         language: sample.language,
       }),
